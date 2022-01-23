@@ -60,8 +60,7 @@ main {
     border: black 0px solid;
     border-radius: 15px;
 }
-#dock {
-    width: 100%;
+.dock-class {
     background-color:rgba(0, 0, 0, 0.6);
     color: whitesmoke;
     font-weight: bold;
@@ -69,4 +68,13 @@ main {
     padding: 1rem;
     border: black 0px solid;
     border-radius: 15px;
+}
+.shadeMap {
+    color: #bababa;
+/*    font-style: italic; */
+    font-size: 0.8rem;
+}
+.item-class {
+    width: 50%;
+    margin: auto;
 }

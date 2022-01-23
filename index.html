@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <!-- Favicon-->
-    <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png">
-    <link rel="manifest" href="/fav/site.webmanifest">
-    <link rel="mask-icon" href="/fav/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/fav/favicon-16x16.png">
+    <link rel="manifest" href="/img/fav/site.webmanifest">
+    <link rel="mask-icon" href="/img/fav/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <!-- /Favicon-->
@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<!--* Navigation Bootstrap-->
+<!--! Navigation Bootstrap-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <a class="navbar-brand" style="margin-left: 1rem;">L<i class="fa fa-paw" aria-hidden="true"></i>ST</a>
@@ -33,12 +33,19 @@
                     Commands
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item">GO [east]</a></li>
+                    <li><a class="dropdown-item">GO [direction]</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item">USE [item]</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item">DO hug</a></li>
+                    <li><a class="dropdown-item">DO play</a></li>
+                    <li><a class="dropdown-item">DO scratch</a></li>
+                    <li><a class="dropdown-item">DO run</a></li>
                 </ul>
                 </li>
                 <a class="nav-link" aria-current="page" href="index.html">Restart Game</a>
+                <a id="nav-icon-key" class="nav-link" aria-current="page" title="Item: Key" onclick="useNavItem(this.id)" style="display: none;"><i class="fa fa-key" aria-hidden="true"></i></a>
+                <a id="nav-icon-food" class="nav-link" aria-current="page" title="Item: Food" onclick="useNavItem(this.id)" style="display: none;"><i class="fa fa-cutlery" aria-hidden="true"></i></a>
             </div>
         </div>
     </div>
@@ -49,24 +56,56 @@
 <main id="1" style="display: none; text-align: center;">
 
     <!--* Caption/Narrative-->
-    <div id="dock">
-        Oh no! There is no collar on kitty. What should we call it?
+    <div id="dock" class="dock-class" style="width: 100%;">
+
     </div><br>
 
-    <!--* Imaging-->
+    <!--* Images Characters-->
     <div id="imgBox">
     <img id="main" src="img/chr/main.png" height=100>
-    <img id="don" src="img/chr/don.png" height=100 style="display: none;">
-    <img id="nancy" src="img/chr/nancy.png" height=100 style="display: none;">
-    <img id="eliza" src="img/chr/eliza.png" height=100 style="display: none;">
-    <img id="bob" src="img/chr/bob.png" height=100 style="display: none;">
-    <img id="bruno" src="img/chr/bruno.png" height=200 style="display: none;">
+    &nbsp;&nbsp;<img id="Don" src="img/chr/don.png" height=100 style="display: none;">
+    &nbsp;&nbsp;<img id="Nancy" src="img/chr/nancy.png" height=100 style="display: none;">
+    &nbsp;&nbsp;<img id="Eliza" src="img/chr/eliza.png" height=100 style="display: none;">
+    &nbsp;&nbsp;<img id="Bob" src="img/chr/bob.png" height=100 style="display: none;">
+    &nbsp;&nbsp;<img id="Bruno" src="img/chr/bruno.png" height=200 style="display: none;">
     </div><br>
 
     <!--* Text Input-->
     <div id="textArea">
         <span style="font-size: 1.7rem; color: black;">>_&nbsp;</span><input type="text" id="input" name="input" style="border:0px solid black; outline: none; width: 85%;">
+    </div><br>
+
+    <!--* Images Items-->
+    <div id="CLUE1" class="item-class" style="display: none;">
+        <div class="dock-class">
+            <img src="img/itm/item_clue1.png" height=70>
+            <span>You Found A CLUE</span><hr>
+            <span>Dogs love to eat!</span>
+        </div>
     </div>
+    <div id="CLUE2" class="item-class" style="display: none;">
+        <div class="dock-class">
+            <img src="img/itm/item_clue2.png" height=70>
+            <span>You Found A CLUE</span><hr>
+            <span>You need a KEY to open the GARDEN.</span>
+        </div>
+    </div>
+    <div id="FOOD" class="item-class" style="display: none;">
+        <div class="dock-class">
+            <img src="img/itm/item_food.png" height=70>
+            <span>You Found FOOD</span><hr>
+            <span>When the time comes you will know what to do with this.</span>
+        </div>
+    </div>
+    <div id="KEY" class="item-class" style="display: none;">
+        <div class="dock-class">
+            <img src="img/itm/item_key.png" height=70>
+            <span>You Found A KEY</span><hr>
+            <span>This seems important.</span>
+        </div>
+    </div>
+
+
 </main>
 
 <!--! Page Welcome-->
@@ -79,7 +118,7 @@
         <span style="font-size: 1.5rem; color: rgba(255,255,255,.55)">
         A little kitty wondered-off deep into the wilderness. It's scared and needs our help to find it's way home. Which way will you go? Who will you encounter? What will you need?<br><br>
             <img src="img/chr/main.png" height=100><br><br>
-        Only your decisions can help.
+            Only your decisions can help.
         </span>
         <br><br><button type="button" class="btn btn-light" value="submit" onclick="change(0);">Find The Way Home!</button>
     </div><br>    
