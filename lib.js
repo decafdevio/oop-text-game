@@ -61,6 +61,7 @@ class room {
         if (direction in this._linkedRooms){
             if (this._name == "East Woods") {
                 if (direction == "go east") {
+                    document.getElementById("input").value = "";
                     if (haveKey == 1) {
                         return this._linkedRooms[direction];
                     } else {
@@ -74,6 +75,22 @@ class room {
                 } else {
                     return this._linkedRooms[direction];
                 }
+            } else if (this._name == "Garden") {
+                if (direction == "go east") {
+                    if (haveFood == 1) {
+                        alert("Well done! You passed Bruno and returned home safely!")
+                    } else {
+                        let newLine = "\r\n";
+                        let msg = "You were missing an item!";
+                        msg += newLine;
+                        msg += "Bruno didn't let you pass :(";
+                        alert(msg);
+                        window.location.href="index.html"
+                        return this;
+                    }
+                } else {
+                    return this._linkedRooms[direction];
+                }            
             } else {
                 return this._linkedRooms[direction];
             }
@@ -123,15 +140,17 @@ class item{
 }
 
 class enemy extends character{
-    constructor(name, pronoun, conversation, weakness){
-        super(name, pronoun, conversation);
-        this._weakness =  weakness;
+    constructor(name, conversation, weakness){
+        super(name, conversation);
+        this._weakness = weakness;
     }
 
     fight(item){
         if (item = this._weakness){
+            alert("you won")
             return true;
         } else {
+            alert("you lost")
             return false;
         }
     }
@@ -146,7 +165,8 @@ const Park = new room ("Park", "you're not alone!", "To the EAST is a North Wood
 const House = new room ("House", "you're not alone!", "To the WEST is a North Woods, to the SOUTH is a East Woods.");
 const Factory = new room ("Factory", "you're not alone!", "To the NORTH is a East Woods, to the WEST is a South Woods.");
 const Yard = new room ("Yard", "you're not alone!", "To the NORTH is a West Woods, to the EAST is a South Woods.");
-const Garden = new room ("Garden", "you're not alone!", "There is knowhere to run. Try using an item!");
+const Garden = new room ("Garden", "you're not alone!", "There is knowhere to run. To pass Bruno go EAST.");
+const Home = new room ("Home", "You made it!", "");
 
 Field.linkRoom("go west", WestWoods);
 Field.linkRoom("go east", EastWoods);
@@ -175,12 +195,14 @@ Factory.linkRoom("go north", EastWoods);
 Factory.linkRoom("go west", SouthWoods);
 Yard.linkRoom("go east", SouthWoods);
 Yard.linkRoom("go north", WestWoods);
+Garden.linkRoom("go east", Home);
 // add characters
 const Don = new character("Don", "he seems upset.", "I wish someone would help cheer me up!");
 const Nancy = new character("Nancy", "she seems lonely.", "I want a friend to play with.");
 const Eliza = new character("Eliza", "she have fleas.", "why won't this itching stop?!");
 const Bob = new character("Bob", "he are very angry.", "I don't want to see anybody, GO AWAY!");
 const Bruno = new enemy("Bruno", "he's a vicious dog!", "I'm always hungry! I'm going to eat you!");
+Bruno.weakness = "FOOD";
 // add items
 const Key = new item("KEY", "this seems important.");
 const Food = new item("FOOD", "when the time comes you will know what to do with this.");
@@ -250,11 +272,21 @@ function startGame(){
         if (event.key === "Enter"){
             command = document.getElementById("input").value;
             const directions = ["go north", "go south", "go east", "go west"];
+            // const action = ["use food"];
             if (directions.includes(command.toLowerCase())) {
                 currentRoom = currentRoom.move(command);
                 displayRoomInfo(currentRoom);
+            // } else if (action.includes(command.toLowerCase())){
+            //     if (enemy._name == null) {
+            //         return;
+            //     } else {
+            //         let outcome = enemy.fight(command);
+            //         alert(outcome);
+            //     }
+            // } 
             } else {
                 alert("Invalid Command");
+
             }
 
             // const equipment = ["use key", "use food"];
